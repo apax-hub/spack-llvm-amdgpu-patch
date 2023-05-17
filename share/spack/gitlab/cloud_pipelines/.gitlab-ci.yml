@@ -306,553 +306,553 @@ protected-publish:
 ########################################
 # E4S pipeline
 ########################################
-.e4s:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: e4s
+# .e4s:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: e4s
 
-e4s-generate:
-  extends: [ ".e4s", ".generate"]
-  image: ecpe4s/ubuntu20.04-runner-x86_64:2023-01-01
+# e4s-generate:
+#   extends: [ ".e4s", ".generate"]
+#   image: ecpe4s/ubuntu20.04-runner-x86_64:2023-01-01
 
-e4s-build:
-  extends: [ ".e4s", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: e4s-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: e4s-generate
+# e4s-build:
+#   extends: [ ".e4s", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: e4s-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: e4s-generate
 
-########################################
-# GPU Testing Pipeline
-########################################
-.gpu-tests:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: gpu-tests
+# ########################################
+# # GPU Testing Pipeline
+# ########################################
+# .gpu-tests:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: gpu-tests
 
-gpu-tests-generate:
-  extends: [ ".gpu-tests", ".generate"]
-  image: ecpe4s/ubuntu20.04-runner-x86_64:2023-01-01
+# gpu-tests-generate:
+#   extends: [ ".gpu-tests", ".generate"]
+#   image: ecpe4s/ubuntu20.04-runner-x86_64:2023-01-01
 
-gpu-tests-build:
-  extends: [ ".gpu-tests", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: gpu-tests-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: gpu-tests-generate
+# gpu-tests-build:
+#   extends: [ ".gpu-tests", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: gpu-tests-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: gpu-tests-generate
 
-########################################
-# E4S OneAPI Pipeline
-########################################
-.e4s-oneapi:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: e4s-oneapi
+# ########################################
+# # E4S OneAPI Pipeline
+# ########################################
+# .e4s-oneapi:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: e4s-oneapi
 
-e4s-oneapi-generate:
-  extends: [ ".e4s-oneapi", ".generate"]
-  image: ecpe4s/ubuntu20.04-runner-x86_64-oneapi:2023-01-01
+# e4s-oneapi-generate:
+#   extends: [ ".e4s-oneapi", ".generate"]
+#   image: ecpe4s/ubuntu20.04-runner-x86_64-oneapi:2023-01-01
 
-e4s-oneapi-build:
-  extends: [ ".e4s-oneapi", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: e4s-oneapi-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: e4s-oneapi-generate
+# e4s-oneapi-build:
+#   extends: [ ".e4s-oneapi", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: e4s-oneapi-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: e4s-oneapi-generate
 
-########################################
-# E4S on Power
-########################################
-.e4s-power-generate-tags-and-image:
-  image: { "name": "ecpe4s/ubuntu20.04-runner-ppc64le:2023-01-01", "entrypoint": [""] }
-  tags: ["spack", "public", "large", "ppc64le"]
+# ########################################
+# # E4S on Power
+# ########################################
+# .e4s-power-generate-tags-and-image:
+#   image: { "name": "ecpe4s/ubuntu20.04-runner-ppc64le:2023-01-01", "entrypoint": [""] }
+#   tags: ["spack", "public", "large", "ppc64le"]
 
-.e4s-power:
-  extends: [".linux_power"]
-  variables:
-    SPACK_CI_STACK_NAME: e4s-power
+# .e4s-power:
+#   extends: [".linux_power"]
+#   variables:
+#     SPACK_CI_STACK_NAME: e4s-power
 
-e4s-power-generate:
-  extends: [ ".e4s-power", ".generate", ".e4s-power-generate-tags-and-image"]
+# e4s-power-generate:
+#   extends: [ ".e4s-power", ".generate", ".e4s-power-generate-tags-and-image"]
 
-e4s-power-build:
-  extends: [ ".e4s-power", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: e4s-power-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: e4s-power-generate
+# e4s-power-build:
+#   extends: [ ".e4s-power", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: e4s-power-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: e4s-power-generate
 
-#########################################
-# Build tests for different build-systems
-#########################################
-.build_systems:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: build_systems
+# #########################################
+# # Build tests for different build-systems
+# #########################################
+# .build_systems:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: build_systems
 
-build_systems-generate:
-  extends: [ ".build_systems", ".generate"]
+# build_systems-generate:
+#   extends: [ ".build_systems", ".generate"]
 
-build_systems-build:
-  extends: [ ".build_systems", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: build_systems-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: build_systems-generate
+# build_systems-build:
+#   extends: [ ".build_systems", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: build_systems-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: build_systems-generate
 
-#########################################
-# RADIUSS
-#########################################
-.radiuss:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: radiuss
+# #########################################
+# # RADIUSS
+# #########################################
+# .radiuss:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: radiuss
 
-radiuss-generate:
-  extends: [ ".radiuss", ".generate" ]
+# radiuss-generate:
+#   extends: [ ".radiuss", ".generate" ]
 
-radiuss-build:
-  extends: [ ".radiuss", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: radiuss-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: radiuss-generate
+# radiuss-build:
+#   extends: [ ".radiuss", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: radiuss-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: radiuss-generate
 
-########################################
-# RADIUSS for AWS
-########################################
+# ########################################
+# # RADIUSS for AWS
+# ########################################
 
-.tags-x86_64_v4:
-  tags: ["spack", "public", "aws", "medium", "x86_64_v4"]
+# .tags-x86_64_v4:
+#   tags: ["spack", "public", "aws", "medium", "x86_64_v4"]
 
-.tags-win64-msvc2019:
-  tags: ["spack", "protected", "medium", "win64"]
+# .tags-win64-msvc2019:
+#   tags: ["spack", "protected", "medium", "win64"]
 
-# Include this AFTER .*-generate in "extends" list
-.radiuss-aws-overrides:
-  # This controls image for generate step; build step is controlled by spack.yaml
-  # Note that generator emits OS info for build so these should be the same.
-  image: { "name": "ghcr.io/spack/e4s-amazonlinux-2:v2023-03-09", "entrypoint": [""] }
+# # Include this AFTER .*-generate in "extends" list
+# .radiuss-aws-overrides:
+#   # This controls image for generate step; build step is controlled by spack.yaml
+#   # Note that generator emits OS info for build so these should be the same.
+#   image: { "name": "ghcr.io/spack/e4s-amazonlinux-2:v2023-03-09", "entrypoint": [""] }
 
-.radiuss-aws:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: radiuss-aws
+# .radiuss-aws:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: radiuss-aws
 
-radiuss-aws-generate:
-  extends: [ ".radiuss-aws", ".generate", ".radiuss-aws-overrides", ".tags-x86_64_v4" ]
+# radiuss-aws-generate:
+#   extends: [ ".radiuss-aws", ".generate", ".radiuss-aws-overrides", ".tags-x86_64_v4" ]
 
-radiuss-aws-build:
-  extends: [ ".radiuss-aws", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: radiuss-aws-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: radiuss-aws-generate
-
-
-# Parallel Pipeline for aarch64 (reuses override image, but generates and builds on aarch64)
-
-.radiuss-aws-aarch64:
-  extends: [ ".linux_aarch64" ]
-  variables:
-    SPACK_CI_STACK_NAME: radiuss-aws-aarch64
-
-radiuss-aws-aarch64-generate:
-  extends: [ ".radiuss-aws-aarch64", ".generate-aarch64", ".radiuss-aws-overrides" ]
-
-radiuss-aws-aarch64-build:
-  extends: [ ".radiuss-aws-aarch64", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: radiuss-aws-aarch64-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: radiuss-aws-aarch64-generate
-
-########################################
-# ECP Data & Vis SDK
-########################################
-.data-vis-sdk:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: data-vis-sdk
-
-data-vis-sdk-generate:
-  extends: [ ".data-vis-sdk", ".generate"]
-  image: ecpe4s/ubuntu20.04-runner-x86_64:2023-01-01
-
-data-vis-sdk-build:
-  extends: [ ".data-vis-sdk", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: data-vis-sdk-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: data-vis-sdk-generate
-
-########################################
-# AWS AHUG Applications (x86_64)
-########################################
-
-# Include this AFTER .*-generate in "extends" lists
-.aws-ahug-overrides:
-  # This controls image for generate step; build step is controlled by spack.yaml
-  # Note that generator emits OS info for build so these should be the same.
-  image: { "name": "ghcr.io/spack/e4s-amazonlinux-2:v2023-03-09", "entrypoint": [""] }
-
-.aws-ahug:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: aws-ahug
-
-aws-ahug-generate:
-  extends: [ ".aws-ahug", ".generate", ".aws-ahug-overrides", ".tags-x86_64_v4" ]
-
-aws-ahug-build:
-  extends: [ ".aws-ahug", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-ahug-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-ahug-generate
-
-# Parallel Pipeline for aarch64 (reuses override image, but generates and builds on aarch64)
-.aws-ahug-aarch64:
-  extends: [ ".linux_aarch64" ]
-  variables:
-    SPACK_CI_STACK_NAME: aws-ahug-aarch64
-
-aws-ahug-aarch64-generate:
-  extends: [ ".aws-ahug-aarch64", ".generate-aarch64", ".aws-ahug-overrides" ]
-
-aws-ahug-aarch64-build:
-  extends: [ ".aws-ahug-aarch64", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-ahug-aarch64-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-ahug-aarch64-generate
-
-########################################
-# AWS ISC Applications (x86_64)
-########################################
-
-# Call this AFTER .*-generate
-.aws-isc-overrides:
-  # This controls image for generate step; build step is controlled by spack.yaml
-  # Note that generator emits OS info for build so these should be the same.
-  image: { "name": "ghcr.io/spack/e4s-amazonlinux-2:v2023-03-09", "entrypoint": [""] }
-
-.aws-isc:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: aws-isc
-
-aws-isc-generate:
-  extends: [ ".aws-isc", ".generate", ".aws-isc-overrides", ".tags-x86_64_v4" ]
-
-aws-isc-build:
-  extends: [ ".aws-isc", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-isc-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-isc-generate
-
-# Parallel Pipeline for aarch64 (reuses override image, but generates and builds on aarch64)
-
-.aws-isc-aarch64:
-  extends: [ ".linux_aarch64" ]
-  variables:
-    SPACK_CI_STACK_NAME: aws-isc-aarch64
-
-aws-isc-aarch64-generate:
-  extends: [ ".aws-isc-aarch64", ".generate-aarch64", ".aws-isc-overrides" ]
-
-aws-isc-aarch64-build:
-  extends: [ ".aws-isc-aarch64", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-isc-aarch64-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-isc-aarch64-generate
+# radiuss-aws-build:
+#   extends: [ ".radiuss-aws", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: radiuss-aws-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: radiuss-aws-generate
 
 
-########################################
-# Spack Tutorial
-########################################
-.tutorial:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: tutorial
+# # Parallel Pipeline for aarch64 (reuses override image, but generates and builds on aarch64)
 
-tutorial-generate:
-  extends: [ ".tutorial", ".generate"]
-  image: ghcr.io/spack/tutorial-ubuntu-22.04:v2023-05-07
+# .radiuss-aws-aarch64:
+#   extends: [ ".linux_aarch64" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: radiuss-aws-aarch64
 
-tutorial-build:
-  extends: [ ".tutorial", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: tutorial-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: tutorial-generate
+# radiuss-aws-aarch64-generate:
+#   extends: [ ".radiuss-aws-aarch64", ".generate-aarch64", ".radiuss-aws-overrides" ]
 
-#######################################
-# Machine Learning - Linux x86_64 (CPU)
-#######################################
-.ml-linux-x86_64-cpu:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: ml-linux-x86_64-cpu
+# radiuss-aws-aarch64-build:
+#   extends: [ ".radiuss-aws-aarch64", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: radiuss-aws-aarch64-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: radiuss-aws-aarch64-generate
 
-ml-linux-x86_64-cpu-generate:
-  extends: [ ".generate", .ml-linux-x86_64-cpu, ".tags-x86_64_v4" ]
-  image: ghcr.io/spack/linux-ubuntu22.04-x86_64_v2:nightly
+# ########################################
+# # ECP Data & Vis SDK
+# ########################################
+# .data-vis-sdk:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: data-vis-sdk
 
-ml-linux-x86_64-cpu-build:
-  extends: [ ".build", ".ml-linux-x86_64-cpu" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: ml-linux-x86_64-cpu-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: ml-linux-x86_64-cpu-generate
+# data-vis-sdk-generate:
+#   extends: [ ".data-vis-sdk", ".generate"]
+#   image: ecpe4s/ubuntu20.04-runner-x86_64:2023-01-01
 
-########################################
-# Machine Learning - Linux x86_64 (CUDA)
-########################################
-.ml-linux-x86_64-cuda:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: ml-linux-x86_64-cuda
+# data-vis-sdk-build:
+#   extends: [ ".data-vis-sdk", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: data-vis-sdk-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: data-vis-sdk-generate
 
-ml-linux-x86_64-cuda-generate:
-  extends: [ ".generate", .ml-linux-x86_64-cuda, ".tags-x86_64_v4" ]
-  image: ghcr.io/spack/linux-ubuntu22.04-x86_64_v2:nightly
+# ########################################
+# # AWS AHUG Applications (x86_64)
+# ########################################
 
-ml-linux-x86_64-cuda-build:
-  extends: [ ".build", ".ml-linux-x86_64-cuda"  ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: ml-linux-x86_64-cuda-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: ml-linux-x86_64-cuda-generate
+# # Include this AFTER .*-generate in "extends" lists
+# .aws-ahug-overrides:
+#   # This controls image for generate step; build step is controlled by spack.yaml
+#   # Note that generator emits OS info for build so these should be the same.
+#   image: { "name": "ghcr.io/spack/e4s-amazonlinux-2:v2023-03-09", "entrypoint": [""] }
 
-########################################
-# Machine Learning - Linux x86_64 (ROCm)
-########################################
-.ml-linux-x86_64-rocm:
-  extends: [ ".linux_x86_64_v3" ]
-  variables:
-    SPACK_CI_STACK_NAME: ml-linux-x86_64-rocm
+# .aws-ahug:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-ahug
 
-ml-linux-x86_64-rocm-generate:
-  extends: [ ".generate", .ml-linux-x86_64-rocm, ".tags-x86_64_v4" ]
-  image: ghcr.io/spack/linux-ubuntu22.04-x86_64_v2:nightly
+# aws-ahug-generate:
+#   extends: [ ".aws-ahug", ".generate", ".aws-ahug-overrides", ".tags-x86_64_v4" ]
 
-ml-linux-x86_64-rocm-build:
-  extends: [ ".build", ".ml-linux-x86_64-rocm" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: ml-linux-x86_64-rocm-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: ml-linux-x86_64-rocm-generate
+# aws-ahug-build:
+#   extends: [ ".aws-ahug", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-ahug-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-ahug-generate
+
+# # Parallel Pipeline for aarch64 (reuses override image, but generates and builds on aarch64)
+# .aws-ahug-aarch64:
+#   extends: [ ".linux_aarch64" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-ahug-aarch64
+
+# aws-ahug-aarch64-generate:
+#   extends: [ ".aws-ahug-aarch64", ".generate-aarch64", ".aws-ahug-overrides" ]
+
+# aws-ahug-aarch64-build:
+#   extends: [ ".aws-ahug-aarch64", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-ahug-aarch64-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-ahug-aarch64-generate
+
+# ########################################
+# # AWS ISC Applications (x86_64)
+# ########################################
+
+# # Call this AFTER .*-generate
+# .aws-isc-overrides:
+#   # This controls image for generate step; build step is controlled by spack.yaml
+#   # Note that generator emits OS info for build so these should be the same.
+#   image: { "name": "ghcr.io/spack/e4s-amazonlinux-2:v2023-03-09", "entrypoint": [""] }
+
+# .aws-isc:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-isc
+
+# aws-isc-generate:
+#   extends: [ ".aws-isc", ".generate", ".aws-isc-overrides", ".tags-x86_64_v4" ]
+
+# aws-isc-build:
+#   extends: [ ".aws-isc", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-isc-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-isc-generate
+
+# # Parallel Pipeline for aarch64 (reuses override image, but generates and builds on aarch64)
+
+# .aws-isc-aarch64:
+#   extends: [ ".linux_aarch64" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-isc-aarch64
+
+# aws-isc-aarch64-generate:
+#   extends: [ ".aws-isc-aarch64", ".generate-aarch64", ".aws-isc-overrides" ]
+
+# aws-isc-aarch64-build:
+#   extends: [ ".aws-isc-aarch64", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-isc-aarch64-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-isc-aarch64-generate
+
+
+# ########################################
+# # Spack Tutorial
+# ########################################
+# .tutorial:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: tutorial
+
+# tutorial-generate:
+#   extends: [ ".tutorial", ".generate"]
+#   image: ghcr.io/spack/tutorial-ubuntu-22.04:v2023-05-07
+
+# tutorial-build:
+#   extends: [ ".tutorial", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: tutorial-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: tutorial-generate
+
+# #######################################
+# # Machine Learning - Linux x86_64 (CPU)
+# #######################################
+# .ml-linux-x86_64-cpu:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: ml-linux-x86_64-cpu
+
+# ml-linux-x86_64-cpu-generate:
+#   extends: [ ".generate", .ml-linux-x86_64-cpu, ".tags-x86_64_v4" ]
+#   image: ghcr.io/spack/linux-ubuntu22.04-x86_64_v2:nightly
+
+# ml-linux-x86_64-cpu-build:
+#   extends: [ ".build", ".ml-linux-x86_64-cpu" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: ml-linux-x86_64-cpu-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: ml-linux-x86_64-cpu-generate
+
+# ########################################
+# # Machine Learning - Linux x86_64 (CUDA)
+# ########################################
+# .ml-linux-x86_64-cuda:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: ml-linux-x86_64-cuda
+
+# ml-linux-x86_64-cuda-generate:
+#   extends: [ ".generate", .ml-linux-x86_64-cuda, ".tags-x86_64_v4" ]
+#   image: ghcr.io/spack/linux-ubuntu22.04-x86_64_v2:nightly
+
+# ml-linux-x86_64-cuda-build:
+#   extends: [ ".build", ".ml-linux-x86_64-cuda"  ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: ml-linux-x86_64-cuda-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: ml-linux-x86_64-cuda-generate
+
+# ########################################
+# # Machine Learning - Linux x86_64 (ROCm)
+# ########################################
+# .ml-linux-x86_64-rocm:
+#   extends: [ ".linux_x86_64_v3" ]
+#   variables:
+#     SPACK_CI_STACK_NAME: ml-linux-x86_64-rocm
+
+# ml-linux-x86_64-rocm-generate:
+#   extends: [ ".generate", .ml-linux-x86_64-rocm, ".tags-x86_64_v4" ]
+#   image: ghcr.io/spack/linux-ubuntu22.04-x86_64_v2:nightly
+
+# ml-linux-x86_64-rocm-build:
+#   extends: [ ".build", ".ml-linux-x86_64-rocm" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: ml-linux-x86_64-rocm-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: ml-linux-x86_64-rocm-generate
 
 ########################################
 # Machine Learning - Darwin aarch64 (MPS)
 ########################################
-.ml-darwin-aarch64-mps:
-  variables:
-    SPACK_CI_STACK_NAME: ml-darwin-aarch64-mps
+# .ml-darwin-aarch64-mps:
+#   variables:
+#     SPACK_CI_STACK_NAME: ml-darwin-aarch64-mps
 
-ml-darwin-aarch64-mps-generate:
-  tags: [ "macos-ventura", "apple-clang-14", "aarch64-macos" ]
-  extends: [ ".ml-darwin-aarch64-mps", ".darwin-generate"]
+# ml-darwin-aarch64-mps-generate:
+#   tags: [ "macos-ventura", "apple-clang-14", "aarch64-macos" ]
+#   extends: [ ".ml-darwin-aarch64-mps", ".darwin-generate"]
 
-ml-darwin-aarch64-mps-build:
-  extends: [ ".ml-darwin-aarch64-mps", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: ml-darwin-aarch64-mps-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: ml-darwin-aarch64-mps-generate
+# ml-darwin-aarch64-mps-build:
+#   extends: [ ".ml-darwin-aarch64-mps", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: ml-darwin-aarch64-mps-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: ml-darwin-aarch64-mps-generate
 
 ########################################
 # Deprecated CI testing
 ########################################
-.deprecated-ci:
-  variables:
-    SPACK_CI_STACK_NAME: deprecated
+# .deprecated-ci:
+#   variables:
+#     SPACK_CI_STACK_NAME: deprecated
 
-deprecated-ci-generate:
-  extends: [ ".generate-deprecated", ".deprecated-ci" ]
+# deprecated-ci-generate:
+#   extends: [ ".generate-deprecated", ".deprecated-ci" ]
 
-deprecated-ci-build:
-  extends: [ ".build", ".deprecated-ci" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: deprecated-ci-generate
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: deprecated-ci-generate
+# deprecated-ci-build:
+#   extends: [ ".build", ".deprecated-ci" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: deprecated-ci-generate
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: deprecated-ci-generate
 
 ########################################
 # AWS PCLUSTER
 ########################################
 
-.aws-pcluster-generate-image:
-  image: { "name": "ghcr.io/spack/pcluster-amazonlinux-2:v2023-05-25", "entrypoint": [""] }
+# .aws-pcluster-generate-image:
+#   image: { "name": "ghcr.io/spack/pcluster-amazonlinux-2:v2023-05-25", "entrypoint": [""] }
 
-.aws-pcluster-generate:
-  before_script:
-    # Use gcc from local container buildcache
-    - - . "./share/spack/setup-env.sh"
-      - . /etc/profile.d/modules.sh
-      - spack mirror add local-cache /bootstrap/local-cache
-      - spack gpg trust /bootstrap/public-key
-      - cd "${CI_PROJECT_DIR}" && curl -sOL https://raw.githubusercontent.com/spack/spack-configs/main/AWS/parallelcluster/postinstall.sh
-      - sed -i -e "s/spack arch -t/echo ${SPACK_TARGET_ARCH}/g" postinstall.sh
-      - /bin/bash postinstall.sh -fg
-      - spack config --scope site add "packages:all:target:\"target=${SPACK_TARGET_ARCH}\""
-  after_script:
-    - - mv "${CI_PROJECT_DIR}/postinstall.sh" "${CI_PROJECT_DIR}/jobs_scratch_dir/"
+# .aws-pcluster-generate:
+#   before_script:
+#     # Use gcc from local container buildcache
+#     - - . "./share/spack/setup-env.sh"
+#       - . /etc/profile.d/modules.sh
+#       - spack mirror add local-cache /bootstrap/local-cache
+#       - spack gpg trust /bootstrap/public-key
+#       - cd "${CI_PROJECT_DIR}" && curl -sOL https://raw.githubusercontent.com/spack/spack-configs/main/AWS/parallelcluster/postinstall.sh
+#       - sed -i -e "s/spack arch -t/echo ${SPACK_TARGET_ARCH}/g" postinstall.sh
+#       - /bin/bash postinstall.sh -fg
+#       - spack config --scope site add "packages:all:target:\"target=${SPACK_TARGET_ARCH}\""
+#   after_script:
+#     - - mv "${CI_PROJECT_DIR}/postinstall.sh" "${CI_PROJECT_DIR}/jobs_scratch_dir/"
 
-# Icelake (one pipeline per target)
-.aws-pcluster-icelake:
-  variables:
-    SPACK_CI_STACK_NAME: aws-pcluster-icelake
+# # Icelake (one pipeline per target)
+# .aws-pcluster-icelake:
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-pcluster-icelake
 
-aws-pcluster-generate-icelake:
-  extends: [ ".linux_icelake", ".aws-pcluster-icelake", ".generate", ".tags-x86_64_v4", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
+# aws-pcluster-generate-icelake:
+#   extends: [ ".linux_icelake", ".aws-pcluster-icelake", ".generate", ".tags-x86_64_v4", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
 
-aws-pcluster-build-icelake:
-  extends: [ ".linux_icelake", ".aws-pcluster-icelake", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-pcluster-generate-icelake
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-pcluster-generate-icelake
+# aws-pcluster-build-icelake:
+#   extends: [ ".linux_icelake", ".aws-pcluster-icelake", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-pcluster-generate-icelake
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-pcluster-generate-icelake
 
-# Skylake_avx512 (one pipeline per target)
-.aws-pcluster-skylake:
-  variables:
-    SPACK_CI_STACK_NAME: aws-pcluster-skylake
+# # Skylake_avx512 (one pipeline per target)
+# .aws-pcluster-skylake:
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-pcluster-skylake
 
-aws-pcluster-generate-skylake:
-  extends: [ ".linux_skylake", ".aws-pcluster-skylake", ".generate", ".tags-x86_64_v4", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
+# aws-pcluster-generate-skylake:
+#   extends: [ ".linux_skylake", ".aws-pcluster-skylake", ".generate", ".tags-x86_64_v4", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
 
-aws-pcluster-build-skylake:
-  extends: [ ".linux_skylake", ".aws-pcluster-skylake", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-pcluster-generate-skylake
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-pcluster-generate-skylake
+# aws-pcluster-build-skylake:
+#   extends: [ ".linux_skylake", ".aws-pcluster-skylake", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-pcluster-generate-skylake
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-pcluster-generate-skylake
 
-# Neoverse_n1 (one pipeline per target)
-.aws-pcluster-neoverse_n1:
-  variables:
-    SPACK_CI_STACK_NAME: aws-pcluster-neoverse_n1
+# # Neoverse_n1 (one pipeline per target)
+# .aws-pcluster-neoverse_n1:
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-pcluster-neoverse_n1
 
-aws-pcluster-generate-neoverse_n1:
-  extends: [ ".linux_neoverse_n1", ".aws-pcluster-neoverse_n1", ".generate-aarch64", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
+# aws-pcluster-generate-neoverse_n1:
+#   extends: [ ".linux_neoverse_n1", ".aws-pcluster-neoverse_n1", ".generate-aarch64", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
 
-aws-pcluster-build-neoverse_n1:
-  extends: [  ".linux_neoverse_n1", ".aws-pcluster-neoverse_n1", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-pcluster-generate-neoverse_n1
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-pcluster-generate-neoverse_n1
+# aws-pcluster-build-neoverse_n1:
+#   extends: [  ".linux_neoverse_n1", ".aws-pcluster-neoverse_n1", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-pcluster-generate-neoverse_n1
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-pcluster-generate-neoverse_n1
 
-# Neoverse_v1 (one pipeline per target)
-.aws-pcluster-neoverse_v1:
-  variables:
-    SPACK_CI_STACK_NAME: aws-pcluster-neoverse_v1
+# # Neoverse_v1 (one pipeline per target)
+# .aws-pcluster-neoverse_v1:
+#   variables:
+#     SPACK_CI_STACK_NAME: aws-pcluster-neoverse_v1
 
-aws-pcluster-generate-neoverse_v1:
-  extends: [ ".linux_neoverse_v1", ".aws-pcluster-neoverse_v1", ".generate-aarch64", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
+# aws-pcluster-generate-neoverse_v1:
+#   extends: [ ".linux_neoverse_v1", ".aws-pcluster-neoverse_v1", ".generate-aarch64", ".aws-pcluster-generate", ".aws-pcluster-generate-image" ]
 
-aws-pcluster-build-neoverse_v1:
-  extends: [  ".linux_neoverse_v1", ".aws-pcluster-neoverse_v1", ".build" ]
-  trigger:
-    include:
-      - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
-        job: aws-pcluster-generate-neoverse_v1
-    strategy: depend
-  needs:
-    - artifacts: True
-      job: aws-pcluster-generate-neoverse_v1
+# aws-pcluster-build-neoverse_v1:
+#   extends: [  ".linux_neoverse_v1", ".aws-pcluster-neoverse_v1", ".build" ]
+#   trigger:
+#     include:
+#       - artifact: jobs_scratch_dir/cloud-ci-pipeline.yml
+#         job: aws-pcluster-generate-neoverse_v1
+#     strategy: depend
+#   needs:
+#     - artifacts: True
+#       job: aws-pcluster-generate-neoverse_v1
 
 ########################################
 # Windows Vis
