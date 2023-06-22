@@ -86,6 +86,7 @@ ci:
 
   - any-job:
       tags: ["spack"]
+      image: "ghcr.io/spack/e4s-ubuntu-18.04:v2021-10-18"
       before_script:
       - - uname -a || true
         - grep -E "vendor|model name" /proc/cpuinfo 2>/dev/null | sort -u || head -n10 /proc/cpuinfo 2>/dev/null || true
