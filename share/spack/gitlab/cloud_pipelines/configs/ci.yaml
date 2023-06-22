@@ -89,6 +89,7 @@ ci:
       before_script:
       - - uname -a || true
         - grep -E "vendor|model name" /proc/cpuinfo 2>/dev/null | sort -u || head -n10 /proc/cpuinfo 2>/dev/null || true
+        - nproc || true
       - - . "./share/spack/setup-env.sh"
         - spack --version
         - spack arch
