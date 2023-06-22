@@ -664,7 +664,7 @@ ml-linux-x86_64-rocm-build:
 # Machine Learning - Darwin aarch64 (MPS)
 ########################################
 .ml-darwin-aarch64-mps:
-  extends: [".darwin-aarch64"]
+  extends: [".darwin_aarch64"]
   variables:
     SPACK_CI_STACK_NAME: ml-darwin-aarch64-mps
 
