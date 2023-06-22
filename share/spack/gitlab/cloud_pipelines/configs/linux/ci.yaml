@@ -292,3 +292,8 @@ ci:
           SPACK_BUILD_JOBS: "1"
           KUBERNETES_CPU_REQUEST: "500m"
           KUBERNETES_MEMORY_REQUEST: "500M"
+
+  - any-job:
+      image: "ghcr.io/spack/e4s-ubuntu-18.04:v2021-10-18"
+      before_script:
+      - - nproc
