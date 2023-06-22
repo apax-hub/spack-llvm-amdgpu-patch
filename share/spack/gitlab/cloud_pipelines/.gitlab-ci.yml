@@ -101,7 +101,7 @@ default:
         AWS_ACCESS_KEY_ID: ${PR_MIRRORS_AWS_ACCESS_KEY_ID}
         AWS_SECRET_ACCESS_KEY: ${PR_MIRRORS_AWS_SECRET_ACCESS_KEY}
 
-.generate-base:
+.generate-common:
   stage: generate
   script:
     - uname -a || true
@@ -136,17 +136,17 @@ default:
     when:
       - always
 
+# Generate without tags for cases using external runners
+.generate-base:
+  extends: [ ".base-job", ".generate-common" ]
+
 .generate-x86_64:
-  extends: [ ".base-job", ".generate-base" ]
+  extends: [ ".generate-base" ]
   tags: ["spack", "public", "medium", "x86_64"]
 
 .generate-aarch64:
-  extends: [ ".base-job", ".generate" ]
+  extends: [ ".generate-base" ]
   tags: ["spack", "public", "medium", "aarch64"]
-
-# Generate without tags for cases using external runners
-.generate-no-tags:
-  extends: [ ".base-job", ".generate-base" ]
 
 .generate-deprecated:
   extends: [ ".base-job" ]
@@ -670,7 +670,7 @@ ml-linux-x86_64-rocm-build:
 
 ml-darwin-aarch64-mps-generate:
   tags: [ "macos-ventura", "apple-clang-14", "aarch64-macos" ]
-  extends: [ ".ml-darwin-aarch64-mps", ".generate-no-tags"]
+  extends: [ ".ml-darwin-aarch64-mps", ".generate-base"]
 
 ml-darwin-aarch64-mps-build:
   extends: [ ".ml-darwin-aarch64-mps", ".build" ]
@@ -827,7 +827,7 @@ deprecated-ci-build:
 
 .generate-cray:
   tags: [ "cce@15.0.1", "cray-zen4", "public" ]
-  extends: [ ".generate-no-tags", ".base-cray-job" ]
+  extends: [ ".generate-common", ".base-cray-job" ]
   before_script:
     - echo $PATH
     - module avail
