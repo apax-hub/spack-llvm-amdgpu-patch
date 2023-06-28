@@ -88,8 +88,12 @@ STATUS_REMOVED = "removed"
 
 def _write_timer_json(pkg, timer, cache):
     extra_attributes = {"name": pkg.name, "cache": cache}
-    with open(pkg.times_log_path, "w") as timelog:
-        timer.write_json(timelog, depth=-1, extra_attributes=extra_attributes)
+    try:
+        with open(pkg.times_log_path, "w") as timelog:
+            timer.write_json(timelog, depth=-1, extra_attributes=extra_attributes)
+    except Exception as e:
+        tty.debug(e)
+        return
 
 
 class InstallAction:
