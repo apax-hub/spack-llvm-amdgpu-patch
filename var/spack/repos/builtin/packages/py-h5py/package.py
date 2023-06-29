@@ -36,6 +36,7 @@ class PyH5py(PythonPackage):
     version("2.4.0", sha256="faaeadf4b8ca14c054b7568842e0d12690de7d5d68af4ecce5d7b8fc104d8e60")
 
     variant("mpi", default=True, description="Build with MPI support")
+    variant("dummy2", default=True, description="Change the hash")
 
     # Python versions
     depends_on("python@:3.9", type=("build", "run"), when="@:2.8")
